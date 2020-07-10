@@ -10,8 +10,8 @@ namespace IoTSharp.nanoDevice
 {
     public class Program
     {
-        private const string _token = "581e918118a34c9faf2b9ede8245be33";
-        private const string   BrokerAddress = "192.168.0.23";
+        private const string _token = "be2b6208db0742d99be85c2d74715cba";
+        private const string   BrokerAddress = "139.9.232.10";
 
         public static void Main()
         {
@@ -20,7 +20,7 @@ namespace IoTSharp.nanoDevice
 
             // Wait for Wifi/network to connect (temp)
             SetupAndConnectNetwork();
-
+            long dida = 0;
             // Loop forever
             while (true)
             {
@@ -60,13 +60,13 @@ namespace IoTSharp.nanoDevice
                         try
                         {
                             Thread.Sleep(10000);
-                            message = Encoding.UTF8.GetBytes("{\"NowDateTime\":\"" + DateTime.UtcNow.ToString() + "\"}");
+                            dida++;
+                            message = Encoding.UTF8.GetBytes("{\"NowDateTime\":\"" + DateTime.UtcNow.ToString() + "\",\"Dida\":" + dida.ToString() + "}");
                            var result=  client.Publish("devices/" + clientId + "/telemetry", message, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                             Debug.WriteLine(result.ToString());
                         }
                         catch (Exception ex)
                         {
-
                             Debug.WriteLine("Publish exception " + ex.Message);
                         }
                     }

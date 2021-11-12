@@ -1,10 +1,11 @@
+using nanoFramework.M2Mqtt;
+using nanoFramework.M2Mqtt.Messages;
 using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
+
 
 namespace IoTSharp.nanoDevice
 {
@@ -43,7 +44,7 @@ namespace IoTSharp.nanoDevice
                     //     client.Subscribe(new string[] { "Test1", "Test2" }, new byte[] { 2, 2 });
                     var buffer = nanoFramework.Hardware.Stm32.Utilities.UniqueDeviceId;
                     byte[] message = Encoding.UTF8.GetBytes("{\"DeviceId\":\""+ Encoding.UTF8.GetString(buffer,0, buffer.Length) +"\"}");
-                    client.Publish("devices/"+ clientId + "/attributes", message, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                    client.Publish("devices/"+ clientId + "/attributes", message, MqttQoSLevel.ExactlyOnce, false);
 
                     string[] SubTopics = new string[]
                     {
@@ -52,7 +53,7 @@ namespace IoTSharp.nanoDevice
                     };
 
                     Debug.WriteLine("Subscribe attributes and request");
-                    client.Subscribe(SubTopics, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                    client.Subscribe(SubTopics, new MqttQoSLevel[] { MqttQoSLevel.ExactlyOnce, MqttQoSLevel.ExactlyOnce });
                     
                     Debug.WriteLine("Enter wait loop");
                     while (client.IsConnected)
@@ -62,7 +63,7 @@ namespace IoTSharp.nanoDevice
                             Thread.Sleep(10000);
                             dida++;
                             message = Encoding.UTF8.GetBytes("{\"NowDateTime\":\"" + DateTime.UtcNow.ToString() + "\",\"Dida\":" + dida.ToString() + "}");
-                           var result=  client.Publish("devices/" + clientId + "/telemetry", message, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                           var result=  client.Publish("devices/" + clientId + "/telemetry", message, MqttQoSLevel.ExactlyOnce, false);
                             Debug.WriteLine(result.ToString());
                         }
                         catch (Exception ex)

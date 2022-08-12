@@ -1,0 +1,19 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: nanoframework/nanodu@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          previewPackages: true

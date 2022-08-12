@@ -16,4 +16,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          previewPackages: true
+          stablePackages: true
+          solutionsToCheck: 'IoTSharp.nanoDevice.sln'

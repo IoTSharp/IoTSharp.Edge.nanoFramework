@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
       - uses: nanoframework/nanodu@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
